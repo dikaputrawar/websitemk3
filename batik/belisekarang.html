@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout</title>
+   <link rel="stylesheet" href="..\css/style.css">
+</head>
+<body>
+  <div class="checkout-container">
+    <header>Checkout</header>
+    <form>
+      <div class="produk-container">
+        <h3>Daftar Pesanan</h3>
+        <ul id="list-pesanan"></ul>
+        <hr>
+        <p class="total-price">Total Harga: <span id="total-harga">Rp 0</span></p>
+      </div>
+
+      <div>
+        <h3>Informasi Pengiriman</h3>
+        <label for="nama">Nama:</label>
+        <input type="text" id="nama" name="nama" required>
+        
+        <label for="alamat">Alamat:</label>
+        <textarea id="alamat" name="alamat" required></textarea>
+      </div>
+
+      <button type="button" onclick="checkout()">Checkout</button>
+    </form>
+  </div>
+
+  <script>
+    function checkout() {
+      alert('Checkout button clicked. Implement your checkout logic.');
+      window.location.href = "terimakasih.html";
+    }
+
+    function tambahPesanan(namaProduk, harga) {
+      const listPesanan = document.getElementById('list-pesanan');
+      const listItem = document.createElement('li');
+
+      const inputJumlah = document.createElement('input');
+      inputJumlah.setAttribute('type', 'number');
+      inputJumlah.setAttribute('value', '1');
+      inputJumlah.setAttribute('min', '1');
+      inputJumlah.addEventListener('change', () => {
+        updateTotalHarga();
+      });
+
+      listItem.textContent = `${namaProduk} - Rp ${harga} `;
+      listItem.appendChild(inputJumlah);
+      listPesanan.appendChild(listItem);
+
+      updateTotalHarga();
+    }
+
+    function updateTotalHarga() {
+      const listPesanan = document.getElementById('list-pesanan');
+      const items = listPesanan.getElementsByTagName('li');
+      let totalHarga = 0;
+
+      for (let i = 0; i < items.length; i++) {
+        const harga = parseInt(items[i].textContent.split('Rp ')[1]);
+        const inputJumlah = items[i].getElementsByTagName('input')[0];
+        const jumlah = parseInt(inputJumlah.value);
+
+        totalHarga += harga * jumlah;
+      }
+
+      const totalHargaElement = document.getElementById('total-harga');
+      totalHargaElement.textContent = `Rp ${totalHarga}`;
+    }
+
+    // Contoh penggunaan fungsi tambahPesanan untuk menambahkan pesanan
+    tambahPesanan('Baju Beskap', 350000);
+    tambahPesanan('Kebaya Kutu Baru', 350000);
+
+    // Menambahkan produk ketiga ke dalam daftar pesanan
+    tambahPesanan('Baju Batik', 200000);
+  </script>
+</body>
+</html>
+
+
+
